@@ -1,0 +1,205 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "My-home API",
+    "description": "API for my portfolio page",
+    "version": "1.0.0"
+  },
+  "host": "localhost:8080/api",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "securityDefinitions": {
+    "accessToken": {
+      "type": "apiKey",
+      "in": "cookie",
+      "name": "accessToken",
+      "description": "Need to get access"
+    },
+    "refreshToken": {
+      "type": "apiKey",
+      "in": "cookie",
+      "name": "refreshToken",
+      "description": "Need to refresh tokens"
+    }
+  },
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "summary": "authenticate",
+        "description": "Admin login",
+        "operationId": "authenticateUsingPOST",
+        "parameters": [
+          {
+            "name": "login, password",
+            "in": "body",
+            "description": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "login": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Result info and cookies",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "accessToken": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "refreshToken": {
+                  "type": "string",
+                  "example": "string"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "summary": "authenticate",
+        "description": "Admin login",
+        "operationId": "authenticateUsingPOST_1",
+        "parameters": [
+          {
+            "name": "login, password",
+            "in": "body",
+            "description": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "login": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Result info and cookies",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "accessToken": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "refreshToken": {
+                  "type": "string",
+                  "example": "string"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "summary": "authorization",
+        "description": "Admin login",
+        "operationId": "authenticateUsingPOST_2",
+        "parameters": [
+          {
+            "name": "login, password",
+            "in": "body",
+            "description": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "refreshToken": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Result info and cookies",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "accessToken": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "refreshToken": {
+                  "type": "string",
+                  "example": "string"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Admin": {
+      "type": "object",
+      "properties": {
+        "login": {
+          "type": "string",
+          "example": "admin"
+        },
+        "password": {
+          "type": "string",
+          "example": "admin"
+        }
+      }
+    }
+  }
+}

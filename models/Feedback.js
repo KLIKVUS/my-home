@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+import { Schema, model } from "mongoose";
 
 const schema = new Schema({
     "firstName": {
@@ -19,4 +19,4 @@ const schema = new Schema({
     }
 }, { versionKey: false })
 
-module.exports = model("Feedback", schema);
+export default model("Feedback", schema);

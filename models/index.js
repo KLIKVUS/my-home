@@ -1,3 +1,3 @@
-require("./User");
-require("./Project");
-require("./Feedback");
+import "./User.js";
+import "./Project.js";
+import "./Feedback.js";

@@ -1,19 +1,28 @@
-require("dotenv").config();
+import config from "config";
+import express from "express";
+import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
+import fs from "fs";
+import swaggerUi from "swagger-ui-express";
 
-const express = require("express");
-const mongoose = require("mongoose");
+import "./models/index.js";
+import AdminRoutes from "./routes/admin/AdminRoutes.js";
 
-require("./models")
-
-const PORT = process.env.PORT;
+const PORT = config.get("port");
 const app = express();
+const swaggerFile = JSON.parse(fs.readFileSync('./swagger/output.json'))
 
 
-app.use(express.json({ extended: true }));
+app
+    .use(cookieParser(config.get("cookie.secret")))
+    .use(express.json({ extended: true }));
+
+app.use("/api/admin", AdminRoutes);
+app.use("/api/doc", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 try {
     mongoose.set('strictQuery', true)
-    mongoose.connect(process.env.MONGO_URI, {
+    mongoose.connect(config.get("mongoURI"), {
         useNewUrlParser: true,
         useUnifiedTopology: true
     });
@@ -24,5 +33,5 @@ try {
 
 app.listen(PORT, (e) => {
     if (e) return console.error("-- Boss we have error \n error msg:", e);
-    return console.log(`-- Server listening on ${PORT} PORT`);
+    return console.log(`-- Server listening on PORT ${PORT}`);
 })

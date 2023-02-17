@@ -3,21 +3,29 @@
   "version": "1.0.0",
   "description": "my portfolio",
   "main": "app.js",
+  "type": "module",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "server": "nodemon app.js",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \" npm run server\" \"npm run client\"",
+    "gen": "node ./swagger/index.js"
   },
   "author": "KLIKVUS",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "dotenv": "^16.0.3",
+    "config": "^3.3.9",
+    "cookie-parser": "^1.4.6",
     "express": "^4.18.2",
     "joi": "^17.7.0",
     "jsonwebtoken": "^9.0.0",
-    "mongoose": "^6.8.4"
+    "mongoose": "^6.8.4",
+    "swagger-autogen": "^2.23.0",
+    "swagger-ui-express": "^4.6.0"
   },
   "devDependencies": {
+    "concurrently": "^7.6.0",
     "nodemon": "^2.0.20"
   }
 }

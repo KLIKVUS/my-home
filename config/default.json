@@ -1,0 +1,27 @@
+{
+    "port": 8080,
+    "mongoURI": "mongodb://localhost:27017/my-home",
+    "bcrypt": {
+        "saltRounds": 10
+    },
+    "jwt": {
+        "secret": "eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTY2ODc2NTY4NiwiaWF0IjoxNjY4NzY1Njg2fQ.lXQ-Mod2xt056bHxmFCnb94b7PKOJSjxoDTEzmHcgjA",
+        "access": {
+            "type": "access",
+            "expiresIn": "3d"
+        },
+        "refresh": {
+            "type": "refresh",
+            "expiresIn": "7d"
+        }
+    },
+    "cookie": {
+        "secret": "C&F)J@NcRfUjXn2r5u8x/A?D(G-KaPdSgVkYp3s6v9y$B&E)H@MbQeThWmZq4t7w!z%C*F-JaNdRfUjXn2r5u8x/A?D(G+KbPeShVkYp3s6v9y$B&E)H@McQfTjWnZq4t7w!z%C*F-JaNdRgUkXp2s5u8x/A?D(G+KbPeShVmYq3t6w9y$B&E)H@McQfTjWnZr4u7x!A%C*F-JaNdRgUkXp2s5v8y/B?E(G+KbPeShVmYq3t6w9z$C&F)J@McQfT",
+        "accessCookie": {
+            "expiresIn": 3
+        },
+        "refreshCookie": {
+            "expiresIn": 7
+        }
+    }
+}
