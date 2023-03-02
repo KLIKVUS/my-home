@@ -6,16 +6,18 @@ import fs from "fs";
 import swaggerUi from "swagger-ui-express";
 
 import "./models/index.js";
-import AdminRoutes from "./routes/admin/AdminRoutes.js";
+import AdminRoutes from "./routes/admin/index.js";
 
 const PORT = config.get("port");
 const app = express();
-const swaggerFile = JSON.parse(fs.readFileSync('./swagger/output.json'))
+const swaggerFile = JSON.parse(fs.readFileSync("./swagger/output.json"))
 
 
 app
     .use(cookieParser(config.get("cookie.secret")))
     .use(express.json({ extended: true }));
+
+app.get("/", (_, res) => res.redirect("/api/doc"));
 
 app.use("/api/admin", AdminRoutes);
 app.use("/api/doc", swaggerUi.serve, swaggerUi.setup(swaggerFile));

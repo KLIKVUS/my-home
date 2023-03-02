@@ -18,5 +18,6 @@ const schema = new Schema({
         default: 10
     }
 }, { versionKey: false })
+const Feedback = model("Feedback", schema);
 
-export default model("Feedback", schema);
+export default Feedback;

@@ -7,8 +7,18 @@ const doc = {
         title: "My-home API",
         description: "API for my portfolio page"
     },
+    tags: [
+        {
+            name: "Admin",
+            description: "These are only for special users!"
+        },
+        {
+            name: "User",
+            description: "These are only for users!"
+        }
+    ],
     definitions: {
-        Admin: {
+        AdminAuthData: {
             login: "admin",
             password: "admin"
         }
@@ -34,12 +44,7 @@ const doc = {
 const _dirname = dirname(fileURLToPath(import.meta.url));
 
 const outputFile = join(_dirname, "output.json");
-const adminRoutes = ["AuthRoutes.js"];
-let endpointsFiles = [];
-
-for (let route of adminRoutes) {
-    endpointsFiles.push(join(_dirname, `../routes/admin/${route}`));
-}
+let endpointsFiles = ["./routes/admin/AuthRoutes.js"];
 
 
 swaggerAutogen()(outputFile, endpointsFiles, doc).then(({ success }) => {

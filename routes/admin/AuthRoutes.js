@@ -4,18 +4,18 @@ import jwt from "jsonwebtoken";
 import Joi from "joi";
 import config from "config";
 
-import * as User from "../../models/User.js";
-import msgHandler from "../../helpers/msg.js";
-import { generateAccessToken, generateRefreshToken, updateTokens } from "../../helpers/tokens.js";
+import User from "../../models/User.js";
+import msgHandler from "../../helpers/msgHandler.js";
+import { generateRefreshToken, updateTokens } from "../../helpers/tokens.js";
+import adminMiddleware from "../../middleware/adminMiddleware.js";
 
-const AuthRouter = Router();
+const AuthRoutes = Router();
 const defaultCookieOptions = {
     signed: true,
     path: "/admin",
     secure: true,
     sameSite: "Strict"
 }
-// const { generateRefreshToken, generateAccessToken, updateTokens } = tokens;
 
 
 async function errorHandler(dataSchema, statusCod, req) {
@@ -26,27 +26,31 @@ async function errorHandler(dataSchema, statusCod, req) {
     }
 }
 
-AuthRouter.post(
+AuthRoutes.post(
     "/auth/login",
     async (req, res) => {
+        console.log(req.signedCookies);
+        console.log(req.cookies);
+        // #swagger.path = "/admin/auth/login"
         // #swagger.description = "Admin login"
         // #swagger.summary = "authenticate"
         // #swagger.operationId = "authenticateUsingPOST"
+        // #swagger.tags = ["Admin"]
         /* #swagger.parameters["login", "password"] = {
             in: "body",
             description: "Authorization",
             type: "object",
             required: true,
             schema: {
-                "login": "string",
-                "password": "string"
+                $ref: "#/definitions/AdminAuthData"
             }
         } */
         /* #swagger.responses[200] = {
             description: "Result info and cookies",
             schema: {
-                "accessToken": "string",
-                "refreshToken": "string"
+                "status": "string",
+                "statusCod": 200,
+                "message": "string"
             }
         } */
 
@@ -100,27 +104,31 @@ AuthRouter.post(
     }
 )
 
-AuthRouter.post(
+AuthRoutes.post(
     "/auth/register",
+    adminMiddleware,
     async (req, res) => {
-        // #swagger.description = "Admin login"
+        // #swagger.path = "/admin/auth/register"
+        // #swagger.description = "Allows the administrator to create a new account"
         // #swagger.summary = "authenticate"
         // #swagger.operationId = "authenticateUsingPOST_1"
+        // #swagger.tags = ["Admin"]
         /* #swagger.parameters["login", "password"] = {
             in: "body",
             description: "Authorization",
             type: "object",
             required: true,
             schema: {
-                "login": "string",
-                "password": "string"
+                $ref: "#/definitions/AdminAuthData"
             }
         } */
-        /* #swagger.responses[200] = {
-            description: "Result info and cookies",
+        /* #swagger.responses[201] = {
+            description: "Result info",
+            in: "cookie",
             schema: {
-                "accessToken": "string",
-                "refreshToken": "string"
+                "status": "string",
+                "statusCod": 201,
+                "message": "string"
             }
         } */
 
@@ -146,20 +154,11 @@ AuthRouter.post(
             const user = new User({ login, password: hashedPassword, tokenId: refreshToken.id });
             await user.save();
 
-            const accessToken = generateAccessToken(user._id);
             res
-                .cookie("accessToken", accessToken, {
-                    maxAge: new Date(Date.now() + ((24 * 60 * 60 * 1000) * config.get("cookie.accessCookie.expiresIn"))),
-                    ...defaultCookieOptions
-                })
-                .cookie("refreshToken", refreshToken.token, {
-                    maxAge: new Date(Date.now() + ((24 * 60 * 60 * 1000) * config.get("cookie.refreshCookie.expiresIn"))),
-                    ...defaultCookieOptions
-                })
                 .status(201)
                 .json(await msgHandler({
                     statusCod: 201,
-                    message: "The user is found."
+                    message: "The user is created."
                 }));
         } catch (e) {
             console.log(e);
@@ -168,12 +167,14 @@ AuthRouter.post(
     }
 )
 
-AuthRouter.post(
+AuthRoutes.post(
     "/auth/refresh",
     async (req, res) => {
+        // #swagger.path = "/admin/auth/refresh"
         // #swagger.description = "Admin login"
         // #swagger.summary = "authorization"
         // #swagger.operationId = "authenticateUsingPOST_2"
+        // #swagger.tags = ["Admin"]
         /* #swagger.parameters["login", "password"] = {
             in: "body",
             description: "Authorization",
@@ -186,8 +187,9 @@ AuthRouter.post(
         /* #swagger.responses[200] = {
             description: "Result info and cookies",
             schema: {
-                "accessToken": "string",
-                "refreshToken": "string"
+                "status": "string",
+                "statusCod": 200,
+                "message": "string"
             }
         } */
 
@@ -238,4 +240,4 @@ AuthRouter.post(
     }
 )
 
-export default AuthRouter;
+export default AuthRoutes;

@@ -2,7 +2,7 @@ import config from "config";
 import { Types } from "mongoose";
 import jwt from "jsonwebtoken";
 
-import * as User from "../models/User.js";
+import User from "../models/User.js";
 
 
 Date.prototype.addDays = function(days) {

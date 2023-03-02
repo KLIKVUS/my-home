@@ -7,6 +7,16 @@
   },
   "host": "localhost:8080/api",
   "basePath": "/",
+  "tags": [
+    {
+      "name": "Admin",
+      "description": "These are only for special users!"
+    },
+    {
+      "name": "User",
+      "description": "These are only for users!"
+    }
+  ],
   "schemes": [
     "http"
   ],
@@ -25,8 +35,11 @@
     }
   },
   "paths": {
-    "/auth/login": {
+    "/admin/auth/login": {
       "post": {
+        "tags": [
+          "Admin"
+        ],
         "summary": "authenticate",
         "description": "Admin login",
         "operationId": "authenticateUsingPOST",
@@ -37,17 +50,7 @@
             "description": "Authorization",
             "required": true,
             "schema": {
-              "type": "object",
-              "properties": {
-                "login": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "password": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
+              "$ref": "#/definitions/AdminAuthData"
             }
           }
         ],
@@ -57,11 +60,15 @@
             "schema": {
               "type": "object",
               "properties": {
-                "accessToken": {
+                "status": {
                   "type": "string",
                   "example": "string"
                 },
-                "refreshToken": {
+                "statusCod": {
+                  "type": "number",
+                  "example": 200
+                },
+                "message": {
                   "type": "string",
                   "example": "string"
                 }
@@ -80,10 +87,13 @@
         }
       }
     },
-    "/auth/register": {
+    "/admin/auth/register": {
       "post": {
+        "tags": [
+          "Admin"
+        ],
         "summary": "authenticate",
-        "description": "Admin login",
+        "description": "Allows the administrator to create a new account",
         "operationId": "authenticateUsingPOST_1",
         "parameters": [
           {
@@ -92,31 +102,26 @@
             "description": "Authorization",
             "required": true,
             "schema": {
-              "type": "object",
-              "properties": {
-                "login": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "password": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
+              "$ref": "#/definitions/AdminAuthData"
             }
           }
         ],
         "responses": {
-          "200": {
-            "description": "Result info and cookies",
+          "201": {
+            "description": "Result info",
+            "in": "cookie",
             "schema": {
               "type": "object",
               "properties": {
-                "accessToken": {
+                "status": {
                   "type": "string",
                   "example": "string"
                 },
-                "refreshToken": {
+                "statusCod": {
+                  "type": "number",
+                  "example": 201
+                },
+                "message": {
                   "type": "string",
                   "example": "string"
                 }
@@ -135,8 +140,11 @@
         }
       }
     },
-    "/auth/refresh": {
+    "/admin/auth/refresh": {
       "post": {
+        "tags": [
+          "Admin"
+        ],
         "summary": "authorization",
         "description": "Admin login",
         "operationId": "authenticateUsingPOST_2",
@@ -163,11 +171,15 @@
             "schema": {
               "type": "object",
               "properties": {
-                "accessToken": {
+                "status": {
                   "type": "string",
                   "example": "string"
                 },
-                "refreshToken": {
+                "statusCod": {
+                  "type": "number",
+                  "example": 200
+                },
+                "message": {
                   "type": "string",
                   "example": "string"
                 }
@@ -188,7 +200,7 @@
     }
   },
   "definitions": {
-    "Admin": {
+    "AdminAuthData": {
       "type": "object",
       "properties": {
         "login": {

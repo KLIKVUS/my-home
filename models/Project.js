@@ -18,5 +18,6 @@ const schema = new Schema({
         default: 0
     }
 }, { versionKey: false })
+const Project = model("Project", schema);
 
-export default model("Project", schema);
+export default Project;

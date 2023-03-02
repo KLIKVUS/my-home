@@ -20,10 +20,10 @@ const schema = new Schema({
         required: true
     }
 }, { versionKey: false })
-const userModel = model("User", schema);
+const User = model("User", schema);
 
 
-userModel.findOne({ "login": "admin" }, (err, result) => {
+User.findOne({ "login": "admin" }, (err, result) => {
     if (!err && !result) {
         console.log("-- We are create default user 'admin' with password 'admin'");
         const newUser = new userModel({ "login": "admin", "password": "$2y$10$mmkMyvuFJJ.l9zT.1j2Xx.3jV25LlU2.lqOkDk4xhG9YictTVSYDW", "role": "admin", "tokenId": new Types.ObjectId() });
@@ -31,4 +31,4 @@ userModel.findOne({ "login": "admin" }, (err, result) => {
     }
 })
 
-export default userModel;
+export default User;
