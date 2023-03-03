@@ -12,7 +12,7 @@ import adminMiddleware from "../../middleware/adminMiddleware.js";
 const AuthRoutes = Router();
 const defaultCookieOptions = {
     signed: true,
-    path: "/admin",
+    path: "/",
     secure: true,
     sameSite: "Strict"
 }
@@ -29,8 +29,6 @@ async function errorHandler(dataSchema, statusCod, req) {
 AuthRoutes.post(
     "/auth/login",
     async (req, res) => {
-        console.log(req.signedCookies);
-        console.log(req.cookies);
         // #swagger.path = "/admin/auth/login"
         // #swagger.description = "Admin login"
         // #swagger.summary = "authenticate"
@@ -202,37 +200,35 @@ AuthRoutes.post(
         if (errorHandlerResult) return res.status(400).json(errorHandlerResult);
 
         try {
-            const { refreshToken } = req.body;
-            if (refreshToken) {
-                jwt.verify(refreshToken, config.get("jwt.secret"), async (err, decoded) => {
-                    if (decoded.type !== "refresh" || err instanceof jwt.JsonWebTokenError) {
-                        return res.status(400).json(await msgHandler({ statusCod: 400, message: "Invalid token." }));
-                    } else if (err instanceof jwt.TokenExpiredError) {
-                        return res.status(400).json(await msgHandler({ statusCod: 400, message: "The token has expired." }));
-                    }
+            const { refreshToken } = req.signedCookies;
+            jwt.verify(refreshToken, config.get("jwt.secret"), async (err, decoded) => {
+                if (decoded.type !== "refresh" || err instanceof jwt.JsonWebTokenError) {
+                    return res.status(400).json(await msgHandler({ statusCod: 400, message: "Invalid token." }));
+                } else if (err instanceof jwt.TokenExpiredError) {
+                    return res.status(400).json(await msgHandler({ statusCod: 400, message: "The token has expired." }));
+                }
 
-                    const candidate = await User.findOne({ tokenId: decoded.id });
-                    if (!candidate) {
-                        return res.status(400).json(await msgHandler({ statusCod: 400, message: "Invalid token." }));
-                    }
-                    const { accessToken, refreshToken } = await updateTokens(candidate._id);
+                const candidate = await User.findOne({ tokenId: decoded.id });
+                if (!candidate) {
+                    return res.status(400).json(await msgHandler({ statusCod: 400, message: "Invalid token." }));
+                }
+                const { accessToken, refreshToken } = await updateTokens(candidate._id);
 
-                    res
-                        .cookie("accessToken", accessToken, {
-                            maxAge: new Date(Date.now() + ((24 * 60 * 60 * 1000) * config.get("cookie.accessCookie.expiresIn"))),
-                            ...defaultCookieOptions
-                        })
-                        .cookie("refreshToken", refreshToken, {
-                            maxAge: new Date(Date.now() + ((24 * 60 * 60 * 1000) * config.get("cookie.refreshCookie.expiresIn"))),
-                            ...defaultCookieOptions
-                        })
-                        .status(200)
-                        .json(await msgHandler({
-                            statusCod: 200,
-                            message: "Tokens have been updated."
-                        }));
-                });
-            }
+                res
+                    .cookie("accessToken", accessToken, {
+                        maxAge: new Date(Date.now() + ((24 * 60 * 60 * 1000) * config.get("cookie.accessCookie.expiresIn"))),
+                        ...defaultCookieOptions
+                    })
+                    .cookie("refreshToken", refreshToken, {
+                        maxAge: new Date(Date.now() + ((24 * 60 * 60 * 1000) * config.get("cookie.refreshCookie.expiresIn"))),
+                        ...defaultCookieOptions
+                    })
+                    .status(200)
+                    .json(await msgHandler({
+                        statusCod: 200,
+                        message: "Tokens have been updated."
+                    }));
+            });
         } catch (e) {
             console.log(e);
             res.status(500).json(await msgHandler({ statusCod: 500, message: "Server error." }));

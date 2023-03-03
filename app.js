@@ -5,8 +5,9 @@ import cookieParser from "cookie-parser";
 import fs from "fs";
 import swaggerUi from "swagger-ui-express";
 
-import "./models/index.js";
+import "./helpers/createDefaultUser.js";
 import AdminRoutes from "./routes/admin/index.js";
+import UserRoutes from "./routes/user/index.js";
 
 const PORT = config.get("port");
 const app = express();
@@ -14,12 +15,13 @@ const swaggerFile = JSON.parse(fs.readFileSync("./swagger/output.json"))
 
 
 app
-    .use(cookieParser(config.get("cookie.secret")))
-    .use(express.json({ extended: true }));
+    .use(express.json({ extended: true }))
+    .use(cookieParser(config.get("cookie.secret")));
 
 app.get("/", (_, res) => res.redirect("/api/doc"));
 
-app.use("/api/admin", AdminRoutes);
+app.use("/api/", ...UserRoutes);
+app.use("/api/admin", ...AdminRoutes);
 app.use("/api/doc", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 try {

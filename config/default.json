@@ -23,5 +23,9 @@
         "refreshCookie": {
             "expiresIn": 7
         }
+    },
+    "defaultUser": {
+        "login": "admin",
+        "password": "admin"
     }
 }
