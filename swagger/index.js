@@ -18,9 +18,26 @@ const doc = {
         }
     ],
     definitions: {
-        AdminAuthData: {
+        AdminAuth: {
             login: "admin",
             password: "admin"
+        },
+        Project: {
+            _id: "id",
+            title: "New Project",
+            description: "Project desc",
+            img: "img link"
+        },
+        Feedback: {
+            firstName: "Test",
+            lastName: "Person",
+            text: "test text",
+            rating: 5
+        },
+        Response: {
+            status: "string",
+            statusCod: "number",
+            message: "string"
         }
     },
     securityDefinitions: {
@@ -44,7 +61,13 @@ const doc = {
 const _dirname = dirname(fileURLToPath(import.meta.url));
 
 const outputFile = join(_dirname, "output.json");
-let endpointsFiles = ["./routes/admin/AuthRoutes.js"];
+let endpointsFiles = [
+    join(_dirname, "../routes/admin/AuthRoutes.js"),
+    join(_dirname, "../routes/admin/ProjectsRoutes.js"),
+    join(_dirname, "../routes/admin/FeedbacksRoutes.js"),
+    join(_dirname, "../routes/user/ProjectsRoutes.js"),
+    join(_dirname, "../routes/user/FeedbacksRoutes.js"),
+];
 
 
 swaggerAutogen()(outputFile, endpointsFiles, doc).then(({ success }) => {

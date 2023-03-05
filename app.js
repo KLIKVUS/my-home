@@ -25,7 +25,7 @@ app.use("/api/admin", ...AdminRoutes);
 app.use("/api/doc", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 try {
-    mongoose.set('strictQuery', true)
+    mongoose.set("strictQuery", true)
     mongoose.connect(config.get("mongoURI"), {
         useNewUrlParser: true,
         useUnifiedTopology: true

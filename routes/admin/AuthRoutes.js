@@ -8,6 +8,7 @@ import User from "../../models/User.js";
 import msgHandler from "../../helpers/msgHandler.js";
 import { generateRefreshToken, updateTokens } from "../../helpers/tokens.js";
 import adminMiddleware from "../../middleware/adminMiddleware.js";
+import errorHandler from "../../helpers/errorHandler.js";
 
 const AuthRoutes = Router();
 const defaultCookieOptions = {
@@ -17,14 +18,6 @@ const defaultCookieOptions = {
     sameSite: "Strict"
 }
 
-
-async function errorHandler(dataSchema, statusCod, req) {
-    try {
-        await dataSchema.validateAsync(req.body, { abortEarly: false });
-    } catch (err) {
-        return await msgHandler({ statusCod, message: err.message });
-    }
-}
 
 AuthRoutes.post(
     "/auth/login",
@@ -36,19 +29,17 @@ AuthRoutes.post(
         // #swagger.tags = ["Admin"]
         /* #swagger.parameters["login", "password"] = {
             in: "body",
-            description: "Authorization",
+            description: "Authorization data",
             type: "object",
             required: true,
             schema: {
-                $ref: "#/definitions/AdminAuthData"
+                $ref: "#/definitions/AdminAuth"
             }
         } */
         /* #swagger.responses[200] = {
             description: "Result info and cookies",
             schema: {
-                "status": "string",
-                "statusCod": 200,
-                "message": "string"
+                $ref: "#/definitions/Response"
             }
         } */
 
@@ -80,7 +71,7 @@ AuthRoutes.post(
             }
 
             const { accessToken, refreshToken } = await updateTokens(user._id);
-            res
+            return res
                 .cookie("accessToken", accessToken, {
                     maxAge: new Date(Date.now() + ((24 * 60 * 60 * 1000) * config.get("cookie.accessCookie.expiresIn"))),
                     ...defaultCookieOptions
@@ -113,20 +104,18 @@ AuthRoutes.post(
         // #swagger.tags = ["Admin"]
         /* #swagger.parameters["login", "password"] = {
             in: "body",
-            description: "Authorization",
+            description: "Authorization data",
             type: "object",
             required: true,
             schema: {
-                $ref: "#/definitions/AdminAuthData"
+                $ref: "#/definitions/AdminAuth"
             }
         } */
         /* #swagger.responses[201] = {
             description: "Result info",
             in: "cookie",
             schema: {
-                "status": "string",
-                "statusCod": 201,
-                "message": "string"
+                $ref: "#/definitions/Response"
             }
         } */
 
@@ -152,7 +141,7 @@ AuthRoutes.post(
             const user = new User({ login, password: hashedPassword, tokenId: refreshToken.id });
             await user.save();
 
-            res
+            return res
                 .status(201)
                 .json(await msgHandler({
                     statusCod: 201,
@@ -175,7 +164,7 @@ AuthRoutes.post(
         // #swagger.tags = ["Admin"]
         /* #swagger.parameters["login", "password"] = {
             in: "body",
-            description: "Authorization",
+            description: "Authorization data",
             type: "object",
             required: true,
             schema: {
@@ -185,9 +174,7 @@ AuthRoutes.post(
         /* #swagger.responses[200] = {
             description: "Result info and cookies",
             schema: {
-                "status": "string",
-                "statusCod": 200,
-                "message": "string"
+                $ref: "#/definitions/Response"
             }
         } */
 
@@ -214,7 +201,7 @@ AuthRoutes.post(
                 }
                 const { accessToken, refreshToken } = await updateTokens(candidate._id);
 
-                res
+                return res
                     .cookie("accessToken", accessToken, {
                         maxAge: new Date(Date.now() + ((24 * 60 * 60 * 1000) * config.get("cookie.accessCookie.expiresIn"))),
                         ...defaultCookieOptions

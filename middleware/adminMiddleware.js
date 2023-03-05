@@ -16,7 +16,6 @@ async function adminMiddleware(req, res, next) {
             const user = await User.findById(decoded.userId);
 
             req.user = user;
-            console.log(user);
             // if (!user) throw Error;
 
             return next();
@@ -27,7 +26,6 @@ async function adminMiddleware(req, res, next) {
 
             req.user = user;
             req.userTokens = { accessToken, refreshToken };
-            console.log(user);
 
             return next();
         }

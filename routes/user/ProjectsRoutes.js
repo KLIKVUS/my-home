@@ -7,8 +7,18 @@ const ProjectsRoutes = Router();
 
 
 ProjectsRoutes.get(
-    "/projects/get",
+    "/projects",
     async (_, res) => {
+        // #swagger.path = "/projects"
+        // #swagger.description = "Get projects"
+        // #swagger.summary = "get projects"
+        // #swagger.tags = ["User"]
+        /* #swagger.responses[200] = {
+            description: "Result info",
+            schema: [{
+                $ref: "#/definitions/Response"
+            }]
+        } */
         try {
             const projects = await Project.find();
             return res.json(

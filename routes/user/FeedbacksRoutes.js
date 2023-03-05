@@ -7,8 +7,19 @@ const FeedbacksRoutes = Router();
 
 
 FeedbacksRoutes.get(
-    "/feedbacks/get",
+    "/feedbacks",
     async (_, res) => {
+        // #swagger.path = "/feedbacks"
+        // #swagger.description = "Get feedbacks"
+        // #swagger.summary = "get feedbacks"
+        // #swagger.tags = ["User"]
+        /* #swagger.responses[200] = {
+            description: "Result info",
+            schema: [{
+                $ref: "#/definitions/Response"
+            }]
+        } */
+
         try {
             const feedbacks = await Feedback.find();
             return res.json(
