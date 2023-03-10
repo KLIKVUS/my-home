@@ -1,9 +1,9 @@
-import { RouterProvider } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { CookiesProvider } from "react-cookie";
+import { RouterProvider } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 
-import { useRoutes } from "../routes";
+import { useRoutes } from "./routes";
 import { AuthContext } from "../context/AuthContext";
 import { useAuth } from "../hooks/auth.hook";
 
