@@ -27,10 +27,10 @@ function AdminLogin() {
             return message.errorMessage("Fill all fields!");
         }
 
-        // try {
+        try {
             await message.promiseMessage(request.bind(null, "/api/admin/auth/login", "POST", { ...form }));
             authContext.login();
-        // } catch (e) { }
+        } catch { }
     }
 
     return (

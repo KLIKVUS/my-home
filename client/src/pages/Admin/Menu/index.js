@@ -1,18 +1,37 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../hooks/auth.hook';
 
 import './index.css';
 
 
 function AdminMenu() {
-    return (
-        <section>
-            <h1>Меню админа</h1>
+    const { logout } = useAuth();
+    const navigate = useNavigate();
+    const handleExit = () => {
+        logout();
+        navigate("/");
+    }
 
-            <nav>
-                <NavLink to={"projects"}>Проекты</NavLink>
-                <NavLink to={"/feedbacks"}>Отзывы</NavLink>
-            </nav>
-        </section>
+    return (
+        <>
+            <section>
+                <h1>Admin menu</h1>
+
+                <nav>
+                    <NavLink to={"/admin/projects"}>Projects</NavLink>
+
+                    <p />
+
+                    <NavLink to={"/admin/feedbacks"}>Feedbacks</NavLink>
+
+                    <p />
+
+                    <button onClick={handleExit}>Exit</button>
+                </nav>
+            </section>
+
+            <Outlet />
+        </>
     );
 }
 

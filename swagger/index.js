@@ -23,7 +23,6 @@ const doc = {
             password: "admin"
         },
         Project: {
-            _id: "id",
             title: "New Project",
             description: "Project desc",
             img: "img link"
@@ -70,6 +69,9 @@ let endpointsFiles = [
 ];
 
 
-swaggerAutogen()(outputFile, endpointsFiles, doc).then(({ success }) => {
+swaggerAutogen({
+    autoQuery: false,
+    autoBody: false
+})(outputFile, endpointsFiles, doc).then(({ success }) => {
     console.log(`Generated: ${success}`);
 })

@@ -11,6 +11,16 @@ import adminMiddleware from "../../middleware/adminMiddleware.js";
 import errorHandler from "../../helpers/errorHandler.js";
 
 const AuthRoutes = Router();
+const bodyJoiData = {
+    login: Joi
+        .string()
+        .empty()
+        .required(),
+    password: Joi
+        .string()
+        .empty()
+        .required()
+}
 const defaultCookieOptions = {
     signed: true,
     path: "/",
@@ -44,17 +54,8 @@ AuthRoutes.post(
         } */
 
         const errorHandlerResult = await errorHandler(
-            Joi.object({
-                login: Joi
-                    .string()
-                    .empty()
-                    .required(),
-                password: Joi
-                    .string()
-                    .empty()
-                    .required()
-            }).label("Request body"),
-            400, req
+            Joi.object(bodyJoiData).label("Request body"),
+            req.body, 400
         );
         if (errorHandlerResult) return res.status(400).json(errorHandlerResult);
 
@@ -120,11 +121,8 @@ AuthRoutes.post(
         } */
 
         const errorHandlerResult = await errorHandler(
-            Joi.object({
-                login: Joi.string().empty().required(),
-                password: Joi.string().empty().required().min(8).max(30)
-            }).label("Request body"),
-            400, req
+            Joi.object(bodyJoiData).label("Request body"),
+            req.body, 400
         );
         if (errorHandlerResult) return res.status(400).json(errorHandlerResult);
 
@@ -158,13 +156,13 @@ AuthRoutes.post(
     "/auth/refresh",
     async (req, res) => {
         // #swagger.path = "/admin/auth/refresh"
-        // #swagger.description = "Admin login"
+        // #swagger.description = "Admin refresh"
         // #swagger.summary = "authorization"
         // #swagger.operationId = "authenticateUsingPOST_2"
         // #swagger.tags = ["Admin"]
-        /* #swagger.parameters["login", "password"] = {
+        /* #swagger.parameters["refreshToken"] = {
             in: "body",
-            description: "Authorization data",
+            description: "Refresh data",
             type: "object",
             required: true,
             schema: {
@@ -182,7 +180,7 @@ AuthRoutes.post(
             Joi.object({
                 refreshToken: Joi.string().empty().required(),
             }).label("Request body"),
-            400, req
+            req.body, 400
         );
         if (errorHandlerResult) return res.status(400).json(errorHandlerResult);
 

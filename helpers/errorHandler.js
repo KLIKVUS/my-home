@@ -1,8 +1,8 @@
 import msgHandler from "./msgHandler.js";
 
-async function errorHandler(dataSchema, statusCod, req) {
+async function errorHandler(dataSchema, validationData, statusCod) {
     try {
-        await dataSchema.validateAsync(req.body, { abortEarly: false });
+        await dataSchema.validateAsync(validationData, { abortEarly: false });
     } catch (err) {
         return await msgHandler({ statusCod, message: err.message });
     }

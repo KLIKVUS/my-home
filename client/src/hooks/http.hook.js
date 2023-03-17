@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from "react";
+import { useCallback, useRef } from "react";
 
 
 export const useHttp = () => {
@@ -32,5 +32,5 @@ export const useHttp = () => {
 
     const clearError = useCallback(() => error.current = null, [])
 
-    return { loading, request, error, clearError }
+    return { loading: loading.current, request, error, clearError }
 }

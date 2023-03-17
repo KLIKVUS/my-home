@@ -1,13 +1,15 @@
 import './index.css';
 
 
-function Feedback({ firstName, lastName, text, rating }) {
+function Feedback({ children, firstName, lastName, text, rating }) {
     return (
         <div>
-            <h3>Фамилия: {lastName}</h3>
-            <h3>Имя: {firstName}</h3>
+            <h3>LastName: {lastName}</h3>
+            <h3>FirstName: {firstName}</h3>
             <p>{text}</p>
-            <p>Оценка: {rating}</p>
+            <p>Rating: {rating}</p>
+
+            {children}
         </div>
     );
 }

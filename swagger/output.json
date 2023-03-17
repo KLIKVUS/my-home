@@ -112,13 +112,13 @@
           "Admin"
         ],
         "summary": "authorization",
-        "description": "Admin login",
+        "description": "Admin refresh",
         "operationId": "authenticateUsingPOST_2",
         "parameters": [
           {
-            "name": "login, password",
+            "name": "refreshToken",
             "in": "body",
-            "description": "Authorization data",
+            "description": "Refresh data",
             "required": true,
             "schema": {
               "type": "object",
@@ -147,7 +147,7 @@
         }
       }
     },
-    "/admin/projects": {
+    "/admin/project": {
       "post": {
         "tags": [
           "Admin"
@@ -156,7 +156,7 @@
         "description": "Allows the administrator to create a new project",
         "parameters": [
           {
-            "name": "title, description, img",
+            "name": "data",
             "in": "body",
             "description": "New project data",
             "required": true,
@@ -193,7 +193,9 @@
             "description": "Internal Server Error"
           }
         }
-      },
+      }
+    },
+    "/admin/projects/:id": {
       "put": {
         "tags": [
           "Admin"
@@ -202,7 +204,14 @@
         "description": "Allows the administrator to edit a project",
         "parameters": [
           {
-            "name": "id, title, description, img",
+            "name": "id",
+            "description": "Edited project id",
+            "required": true,
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "data",
             "in": "body",
             "description": "Edited project data",
             "required": true,
@@ -235,18 +244,10 @@
         "parameters": [
           {
             "name": "id",
-            "in": "body",
             "description": "Deleted project id",
             "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "_id": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            }
+            "in": "query",
+            "type": "string"
           }
         ],
         "responses": {
@@ -265,7 +266,7 @@
         }
       }
     },
-    "/admin/feedbacks": {
+    "/admin/feedback": {
       "post": {
         "tags": [
           "Admin"
@@ -274,7 +275,7 @@
         "description": "Allows the administrator to create a new feedback",
         "parameters": [
           {
-            "name": "firstName, lastName, text, rating",
+            "name": "data",
             "in": "body",
             "description": "New feedback data",
             "required": true,
@@ -315,7 +316,9 @@
             "description": "Internal Server Error"
           }
         }
-      },
+      }
+    },
+    "/admin/feedback/:id": {
       "put": {
         "tags": [
           "Admin"
@@ -324,7 +327,14 @@
         "description": "Allows the administrator to edit a feedback",
         "parameters": [
           {
-            "name": "_id, firstName, lastName, text, rating",
+            "name": "id",
+            "description": "Deleted project id",
+            "required": true,
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "data",
             "in": "body",
             "description": "Edited feedback data",
             "required": true,
@@ -347,7 +357,9 @@
             "description": "Internal Server Error"
           }
         }
-      },
+      }
+    },
+    "/admin/feedbacks/:id": {
       "delete": {
         "tags": [
           "Admin"
@@ -356,19 +368,11 @@
         "description": "Allows the administrator to delete a feedback",
         "parameters": [
           {
-            "name": "_id",
-            "in": "body",
-            "description": "Delete feedback",
+            "name": "id",
+            "description": "Deleted feedback id",
             "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "_id": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            }
+            "in": "query",
+            "type": "string"
           }
         ],
         "responses": {
@@ -407,6 +411,44 @@
                 "name": "main"
               }
             }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/project/:id": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "get project",
+        "description": "Get project",
+        "parameters": [
+          {
+            "name": "id",
+            "description": "Project id",
+            "required": true,
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Result info",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Response"
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "500": {
             "description": "Internal Server Error"
@@ -459,10 +501,6 @@
     "Project": {
       "type": "object",
       "properties": {
-        "_id": {
-          "type": "string",
-          "example": "id"
-        },
         "title": {
           "type": "string",
           "example": "New Project"

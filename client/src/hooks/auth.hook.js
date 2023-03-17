@@ -1,24 +1,23 @@
-import { useState, useCallback, useEffect } from "react";
-import { Cookies, useCookies } from "react-cookie";
+import { useState, useCallback, useEffect, useMemo } from "react";
+import { Cookies } from "react-cookie";
 
 
 export const useAuth = () => {
     const [accessToken, setAccessToken] = useState(null);
     const [refreshToken, setRefreshToken] = useState(null);
-    const [cookies, , removeCookie] = useCookies(["accessToken", "refreshToken"]);
+    const cookies = useMemo(() => new Cookies(), []);
 
     const login = useCallback(() => {
-        const cookies = new Cookies();
         setAccessToken(cookies.get("accessToken"));
         setRefreshToken(cookies.get("refreshToken"));
-    }, [cookies.accessToken, cookies.refreshToken])
+    }, [cookies])
 
     const logout = useCallback(() => {
         setAccessToken(null);
         setRefreshToken(null);
-        removeCookie("accessToken");
-        removeCookie("refreshToken");
-    }, [removeCookie])
+        cookies.remove("accessToken", { path: "/" });
+        cookies.remove("refreshToken", { path: "/" });
+    }, [cookies])
 
     useEffect(() => {
         const accessToken = cookies.accessToken;

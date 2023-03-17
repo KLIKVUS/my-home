@@ -15,6 +15,8 @@ const schema = new Schema({
     },
     "rating": {
         type: Number,
+        min: 0,
+        max: 10,
         default: 10
     }
 }, { versionKey: false })
