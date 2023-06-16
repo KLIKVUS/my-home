@@ -9,7 +9,13 @@ const schema = new Schema({
         type: String,
         default: ""
     },
-    "img": {
+    "implementedFeatures": {
+        type: [{
+            type: String
+        }],
+        default: []
+    },
+    "link": {
         type: String,
         default: ""
     },

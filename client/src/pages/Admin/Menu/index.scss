@@ -1,0 +1,53 @@
+.content-wrapper {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    &__title {
+        margin-top: 40px;
+        margin-bottom: 20px;
+
+        font-size: 24px;
+        text-align: center;
+        color: #231F20;
+    }
+}
+
+.admin-nav-wrapper {
+    min-width: 250px;
+    margin: auto;
+    padding: 20px;
+
+    text-align: center;
+
+    border-radius: 0 0 12px 12px;
+    background-color: #231F20;
+
+    &__title {
+        font-size: 24px;
+        margin-bottom: 15px;
+    }
+
+    &__nav {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__nav-link {
+        color: darkcyan;
+    }
+
+    &__btn {
+        color: #FF0040;
+        background-color: unset;
+    }
+}
+
+.active {
+    color: inherit;
+}
+
+.pending {
+    color: aqua;
+}

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 
-import './index.css';
+import './index.scss';
 import { AuthContext } from "../../../context/AuthContext";
 import { useMessage } from "../../../hooks/message.hook";
 import { useHttp } from '../../../hooks/http.hook';
@@ -23,7 +23,7 @@ function AdminLogin() {
     const loginHandler = async (event) => {
         event.preventDefault();
 
-        if (!form.login && !form.password) {
+        if (!form.login || !form.password) {
             return message.errorMessage("Fill all fields!");
         }
 
@@ -34,31 +34,35 @@ function AdminLogin() {
     }
 
     return (
-        <form onSubmit={loginHandler}>
-            <label>
-                Login:
-                <input
-                    placeholder="..."
-                    id="login"
-                    type="text"
-                    name="login"
-                    value={form.email}
-                    onChange={changeHandler}
-                />
-            </label>
-            <label>
-                Pass:
-                <input
-                    placeholder="..."
-                    id="password"
-                    type="password"
-                    name="password"
-                    value={form.password}
-                    onChange={changeHandler}
-                />
-            </label>
-            <button type="submit" disabled={loading}>Login</button>
-        </form>
+        <div className="login-form-wrapper">
+            <form onSubmit={loginHandler} className="login-form">
+                <label className="login-form__label">
+                    Login:
+                    <input
+                        placeholder="..."
+                        id="login"
+                        type="text"
+                        name="login"
+                        value={form.email}
+                        onChange={changeHandler}
+                        className="login-form__input"
+                    />
+                </label>
+                <label className="login-form__label">
+                    Pass:
+                    <input
+                        placeholder="..."
+                        id="password"
+                        type="password"
+                        name="password"
+                        value={form.password}
+                        onChange={changeHandler}
+                        className="login-form__input"
+                    />
+                </label>
+                <button className="login-form__btn" type="submit" disabled={loading}>Login</button>
+            </form>
+        </div>
     );
 }
 

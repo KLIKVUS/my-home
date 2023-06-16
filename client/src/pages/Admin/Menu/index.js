@@ -1,37 +1,33 @@
+import { useContext } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../../hooks/auth.hook';
 
-import './index.css';
+import './index.scss';
+import { AuthContext } from "../../../context/AuthContext";
 
 
 function AdminMenu() {
-    const { logout } = useAuth();
+    const authContext = useContext(AuthContext);
     const navigate = useNavigate();
     const handleExit = () => {
-        logout();
+        authContext.logout();
         navigate("/");
     }
 
     return (
-        <>
-            <section>
-                <h1>Admin menu</h1>
+        <div className="content-wrapper">
+            <section className="admin-nav-wrapper">
+                <h1 className="admin-nav-wrapper__title"># Admin menu</h1>
 
-                <nav>
-                    <NavLink to={"/admin/projects"}>Projects</NavLink>
+                <nav className="admin-nav-wrapper__nav">
+                    <NavLink className="admin-nav-wrapper__nav-link" to={"/admin/projects"}>Projects</NavLink>
+                    <NavLink className="admin-nav-wrapper__nav-link" to={"/admin/feedbacks"}>Feedbacks</NavLink>
 
-                    <p />
-
-                    <NavLink to={"/admin/feedbacks"}>Feedbacks</NavLink>
-
-                    <p />
-
-                    <button onClick={handleExit}>Exit</button>
+                    <button className="admin-nav-wrapper__btn" onClick={handleExit}>Exit</button>
                 </nav>
             </section>
 
             <Outlet />
-        </>
+        </div>
     );
 }
 

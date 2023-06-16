@@ -1,0 +1,109 @@
+@use "../../variables";
+
+.main {
+    position: relative;
+
+    &__btns {
+        width: min-content;
+        height: 25px;
+        margin: auto;
+
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 50px;
+
+        display: flex;
+        align-items: center;
+    }
+
+    &__side-line {
+        width: 50px;
+        height: 100%;
+
+        position: absolute;
+        left: 90px;
+        top: -50px;
+
+        border-radius: 12px;
+        background-color: variables.$dark-bg-color;
+    }
+
+    &__anchor-link-wrapper {
+        height: 50px;
+        
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__anchor-link {
+        display: block;
+        width: 35px;
+        height: 35px;
+
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+
+        &--eye {
+            background-image: url("../../../public/icons/btns/eye.svg");
+        }
+    }
+}
+
+.btns {
+    font-family: "RobotoMono-Bold", monospace;
+    color: variables.$clickable-element-color;
+
+    &__btn {
+        width: 16px;
+        height: 16px;
+        margin-right: 20px;
+
+        line-height: 0;
+        font-size: variables.$subtext-size;
+        background-color: unset;
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+
+    &__btn-img--theme {
+        background-position: center;
+        background-repeat: no-repeat;
+        background-image: url("../../../public/icons/btns/theme.svg");
+    }
+}
+
+@media (max-width: variables.$tablet-width) {
+    .main {
+        &__side-line {
+            left: 20px;
+        }
+    }
+}
+
+@media (max-width: variables.$mobile-width) {
+    .main {
+        &__side-line {
+            width: 35px;
+            height: auto;
+            left: 0;
+            right: 0;
+            top: -35px;
+            bottom: 175px;
+            margin: auto;
+        }
+
+        &__anchor-link-wrapper {
+            height: 40px;
+        }
+
+        &__anchor-link {
+            width: 25px;
+            height: 25px;
+        }
+    }
+}

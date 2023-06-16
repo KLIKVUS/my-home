@@ -1,0 +1,41 @@
+@use "../../variables";
+
+body {
+    font-family: "Raleway-SemiBold", sans-serif;
+    font-size: variables.$text-size;
+    color: variables.$text-color;
+    background-color: variables.$bg-color;
+}
+
+header,
+main {
+    width: 100%;
+    max-width: variables.$pc-width;
+    margin: 0 auto;
+    padding: 0 140px;
+}
+
+#root {
+    min-height: 100%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: variables.$tablet-width) {
+
+    header,
+    main {
+        max-width: variables.$tablet-width;
+        padding: 0 70px;
+    }
+}
+
+@media (max-width: variables.$mobile-width) {
+
+    header,
+    main {
+        max-width: variables.$mobile-width;
+        padding: 0 25px;
+    }
+}

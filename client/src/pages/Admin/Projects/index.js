@@ -1,25 +1,48 @@
-import { NavLink, Outlet, useLoaderData } from 'react-router-dom';
+import { NavLink, Outlet, useLoaderData, useSubmit } from 'react-router-dom';
 
-import './index.css';
-import Project from '../../../components/Project';
+import './index.scss';
 
 
 function Projects() {
     const projects = useLoaderData();
+    const submit = useSubmit();
+    const handleDelete = (url) => {
+        submit(null, { method: "delete", action: url });
+    }
 
     return (
-        <>
-            <section>
-                <h1>Projects list</h1>
+        <section className="content-wrapper">
+            <NavLink className="admin-link" to="./create">Create project</NavLink>
+
+            <h1 className="content-wrapper__title">Projects list:</h1>
+
+            <div className="admin-cards-wrapper">
                 {projects && projects.map((project) => (
-                    <Project key={project._id} title={project.title} description={project.description} img={project.img} likes={project.likes}>
-                        <NavLink to={`/admin/projects/${project._id}/edit`}>Edit</NavLink>
-                    </Project>
+                    <div key={project._id} className="admin-cards-wrapper_card card admin-card">
+                        <h2 className="card__title">{project.title}</h2>
+                        <p>Description: {project.description}</p>
+
+                        <p>Implemented features:</p>
+                        {project.implementedFeatures.length ?
+                            <ul className="admin-card__list">
+                                {project.implementedFeatures.map((elem, i) => {
+                                    return <li key={i} className="admin-card__list-item">{elem}</li>
+                                })}
+                            </ul> :
+                            <p>null</p>}
+
+                        <p>Link status: {project.link ? "not null" : "null"}</p>
+
+                        <div className="admin-card__links">
+                            <NavLink to={`/admin/projects/${project._id}/edit`}>Edit</NavLink>
+                            <button onClick={() => handleDelete(`/admin/projects/${project._id}/delete`)}>Delete</button>
+                        </div>
+                    </div>
                 ))}
-            </section>
+            </div>
 
             <Outlet />
-        </>
+        </section>
     );
 }
 

@@ -14,16 +14,17 @@ const bodyJoiData = {
         .empty()
         .required(),
     description: Joi.string(),
-    img: Joi.string()
+    implementedFeatures: Joi.array().items(Joi.string()),
+    link: Joi.string().uri().allow("")
 }
-const queryJoiData = {
+const paramsJoiData = {
     id: Joi
         .string()
         .empty()
         .required()
         .custom((value, helper) => {
             const isValidId = mongoose.Types.ObjectId.isValid(value);
-            if (!isValidId) return helper.message("\"query.id\" is invalid");
+            if (!isValidId) return helper.message("\"params.id\" is invalid");
             return true;
         })
 }
@@ -63,8 +64,8 @@ ProjectsRoutes
             if (errorHandlerResult) return res.status(400).json(errorHandlerResult);
 
             try {
-                const { title, description, img } = req.body;
-                const project = new Project({ title, description, img });
+                const { title, description, implementedFeatures, link } = req.body;
+                const project = new Project({ title, description, implementedFeatures, link });
                 await project.save();
 
                 return res
@@ -90,6 +91,7 @@ ProjectsRoutes
             // #swagger.summary = "edit project"
             // #swagger.tags = ["Admin"]
             /* #swagger.parameters["id"] = {
+                in: "path",
                 description: "Edited project id",
                 required: true
             } */
@@ -111,17 +113,17 @@ ProjectsRoutes
 
             const errorHandlerResult = await errorHandler(
                 Joi.object({
-                    query: queryJoiData,
+                    params: paramsJoiData,
                     body: bodyJoiData
                 }).label("Request data"),
-                { query: req.query, body: req.body }, 400
+                { params: req.params, body: req.body }, 400
             );
             if (errorHandlerResult) return res.status(400).json(errorHandlerResult)
 
             try {
-                const { id } = req.query;
-                const { title, description, img } = req.body;
-                await Project.findByIdAndUpdate(id, { title, description, img });
+                const { id } = req.params;
+                const { title, description, implementedFeatures, link } = req.body;
+                await Project.findByIdAndUpdate(id, { title, description, implementedFeatures, link });
 
                 return res.json(await msgHandler({
                     statusCod: 200,
@@ -139,6 +141,7 @@ ProjectsRoutes
             // #swagger.summary = "delete project"
             // #swagger.tags = ["Admin"]
             /* #swagger.parameters["id"] = {
+                in: "path",
                 description: "Deleted project id",
                 required: true
             } */
@@ -150,13 +153,13 @@ ProjectsRoutes
             } */
 
             const errorHandlerResult = await errorHandler(
-                Joi.object(queryJoiData).label("Request query"),
-                req.query, 400
+                Joi.object(paramsJoiData).label("Request params"),
+                req.params, 400
             );
             if (errorHandlerResult) return res.status(400).json(errorHandlerResult);
 
             try {
-                const { id } = req.query;
+                const { id } = req.params;
                 await Project.findByIdAndDelete(id);
 
                 return res.json(await msgHandler({

@@ -1,0 +1,221 @@
+@use "../../variables";
+
+.cards-wrapper {
+    margin-bottom: 160px;
+
+    &__card {
+        position: relative;
+
+        width: 694px;
+        margin-bottom: 100px;
+        padding: 40px 102px;
+
+        border-radius: 0 12px 12px 0;
+        background-color: variables.$dark-bg-color;
+
+        &::before {
+            content: "";
+            width: 4px;
+
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+
+            background-color: variables.$highlight-element-color;
+        }
+    }
+
+    &__card:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.card {
+    font-size: variables.$text-size;
+    font-family: "Raleway-Regular", sans-serif;
+
+    &__content {
+        width: 100%;
+    }
+
+    &__main-content-wrapper {
+        width: 100%;
+    }
+
+    &__title {
+        margin-bottom: 20px;
+        font-size: variables.$subtitle-size;
+        font-family: "RobotoMono-Bold", monospace;
+
+        &::before {
+            content: "# ";
+        }
+    }
+
+    &__text {
+        margin-bottom: 20px;
+    }
+
+    &__content-wrapper {
+        width: 490px;
+        margin-top: 40px;
+        display: inline-block;
+        font-size: variables.$subtext-size;
+    }
+
+    &__list {
+        padding-left: 1rem;
+
+        &--under-subtitle {
+            margin-top: 10px;
+        }
+    }
+
+    &__list-item {
+        display: flex;
+        margin-bottom: 5px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        &::before {
+            content: "";
+            display: list-item;
+            list-style-type: disc;
+        }
+    }
+
+    &__btns-wrapper {
+        width: 30px;
+        height: 55px;
+        margin-top: auto;
+
+        position: absolute;
+        right: 25px;
+        bottom: 40px;
+
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        gap: 20px;
+    }
+
+    &__btn {
+        width: 30px;
+
+        background-color: unset;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        &--like {
+            height: 22px;
+            background-image: url("../../../public/icons/btns/like.svg");
+        }
+
+        &--link {
+            height: 13px;
+            background-image: url("../../../public/icons/btns/link.svg");
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    &__rating-wrapper {
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        font-size: variables.$subtext-size;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    &__rating {
+        width: 388px;
+
+        display: inline-flex;
+        justify-content: space-between;
+    }
+}
+
+.rating {
+    &__item {
+        width: 25px;
+        height: 25px;
+
+        background-position: center;
+        background-repeat: no-repeat;
+
+        &--selected {
+            background-image: url("../../../public/icons/btns/gear-selected.svg");
+        }
+
+        &--not-selected {
+            background-image: url("../../../public/icons/btns/gear-not-selected.svg");
+        }
+    }
+}
+
+@media (max-width: variables.$tablet-width) {
+    .cards-wrapper {
+        &__card {
+            width: 100%;
+            padding-left: 93px;
+            padding-right: 93px;
+        }
+    }
+
+    .card {
+        &__rating {
+            width: 348px;
+        }
+    }
+}
+
+@media (max-width: variables.$mobile-width) {
+    .cards-wrapper {
+        &__card {
+            width: 100%;
+            padding-left: 25px;
+            padding-right: 25px;
+
+            text-align: center;
+            border-radius: 12px;
+
+            &::before {
+                content: none;
+            }
+        }
+    }
+
+    .card {
+        &__content-wrapper {
+            width: auto;
+        }
+
+        &__list {
+            padding-left: 0;
+        }
+
+        &__list-item {
+            justify-content: center;
+        }
+
+        &__btns-wrapper {
+            width: auto;
+            height: auto;
+            margin-top: 35px;
+
+            position: static;
+
+            display: inline-flex;
+            flex-direction: row;
+            align-items: center;
+        }
+    }
+}

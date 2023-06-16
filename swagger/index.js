@@ -25,7 +25,7 @@ const doc = {
         Project: {
             title: "New Project",
             description: "Project desc",
-            img: "img link"
+            implementedFeatures: ["Feature 1", "Feature 2"]
         },
         Feedback: {
             firstName: "Test",

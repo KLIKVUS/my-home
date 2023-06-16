@@ -27,14 +27,14 @@ const bodyJoiData = {
         .min(1)
         .max(10)
 }
-const queryJoiData = {
+const paramsJoiData = {
     id: Joi
         .string()
         .empty()
         .required()
         .custom((value, helper) => {
             const isValidId = mongoose.Types.ObjectId.isValid(value);
-            if (!isValidId) return helper.message("\"query.id\" is invalid");
+            if (!isValidId) return helper.message("\"params.id\" is invalid");
             return true;
         })
 }
@@ -102,6 +102,7 @@ FeedbacksRoutes
             // #swagger.summary = "edit feedback"
             // #swagger.tags = ["Admin"]
             /* #swagger.parameters["id"] = {
+                in: "path",
                 description: "Deleted project id",
                 required: true
             } */
@@ -123,15 +124,15 @@ FeedbacksRoutes
 
             const errorHandlerResult = await errorHandler(
                 Joi.object({
-                    query: queryJoiData,
+                    params: paramsJoiData,
                     body: bodyJoiData
                 }).label("Request data"),
-                { query: req.query, body: req.body }, 400
+                { params: req.params, body: req.body }, 400
             );
             if (errorHandlerResult) return res.status(400).json(errorHandlerResult);
 
             try {
-                const { id } = req.query;
+                const { id } = req.params;
                 const { firstName, lastName, text, rating } = req.body;
                 await Feedback.findByIdAndUpdate(id, { firstName, lastName, text, rating });
 
@@ -151,6 +152,7 @@ FeedbacksRoutes
             // #swagger.summary = "delete feedback"
             // #swagger.tags = ["Admin"]
             /* #swagger.parameters["id"] = {
+                in: "path",
                 description: "Deleted feedback id",
                 required: true
             } */
@@ -162,8 +164,8 @@ FeedbacksRoutes
             } */
 
             const errorHandlerResult = await errorHandler(
-                Joi.object(queryJoiData).label("Request query"),
-                req.query, 400
+                Joi.object(paramsJoiData).label("Request params"),
+                req.params, 400
             );
             if (errorHandlerResult) return res.status(400).json(errorHandlerResult);
 

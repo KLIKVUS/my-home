@@ -7,14 +7,14 @@ import Feedback from "../../models/Feedback.js";
 import errorHandler from "../../helpers/errorHandler.js";
 
 const FeedbacksRoutes = Router();
-const queryJoiData = {
+const paramsJoiData = {
     id: Joi
         .string()
         .empty()
         .required()
         .custom((value, helper) => {
             const isValidId = mongoose.Types.ObjectId.isValid(value);
-            if (!isValidId) return helper.message("\"query.id\" is invalid");
+            if (!isValidId) return helper.message("\"params.id\" is invalid");
             return true;
         })
 }
@@ -58,6 +58,7 @@ FeedbacksRoutes.get(
         // #swagger.summary = "get project"
         // #swagger.tags = ["User"]
         /* #swagger.parameters["id"] = {
+                in: "path",
                 description: "Project id",
                 required: true
             } */
@@ -69,12 +70,12 @@ FeedbacksRoutes.get(
         } */
         try {
             const errorHandlerResult = await errorHandler(
-                Joi.object(queryJoiData).label("Request data"),
-                req.query, 400
+                Joi.object(paramsJoiData).label("Request params"),
+                req.params, 400
             );
             if (errorHandlerResult) return res.status(400).json(errorHandlerResult);
 
-            const { id } = req.query;
+            const { id } = req.params;
             const { lastName, firstName, text, rating } = await Feedback.findById(id);
             return res.json(
                 await msgHandler({

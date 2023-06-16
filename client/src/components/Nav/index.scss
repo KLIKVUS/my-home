@@ -1,0 +1,211 @@
+@use "../../variables";
+
+.panel {
+    position: relative;
+    padding-top: 50px;
+    z-index: 1;
+
+    display: flex;
+    align-items: center;
+
+    color: variables.$clickable-element-color;
+    font-size: variables.$nav-btns-size;
+
+    &__icon {
+        width: 60px;
+        height: 60px;
+
+        background-image: url("../../../public/icons/page/blob.svg");
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    &__btn-icon {
+        display: none;
+        transform: scaleX(-1);
+    }
+
+    &__page-icon {
+        width: 100%;
+        height: 100%;
+        margin: auto;
+
+        background-image: url("../../../public/icons/page/home.svg");
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    &__content-wrapper {
+        display: inline-flex;
+        align-items: center;
+    }
+
+    &__links-wrapper {
+        margin-left: 42px;
+        position: relative;
+
+        display: flex;
+        align-items: center;
+    }
+
+    &__link-selector {
+        width: 0;
+        height: 30px;
+
+        position: absolute;
+        left: -132px;
+
+        z-index: -1;
+
+        border-radius: 12px;
+        background-color: variables.$dark-bg-color;
+    }
+
+    &__back-link {
+        width: 30px;
+        height: 30px;
+
+        display: inline-block;
+        background-image: url("../../../public/icons/btns/arrow.svg");
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    &__nav {
+        width: 286px;
+    }
+
+    &__social {
+        margin-left: 122px;
+    }
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+
+    &__link.active {
+        color: variables.$text-color;
+    }
+}
+
+.social {
+    display: inline-flex;
+
+    &__link {
+        width: 25px;
+        height: 25px;
+        margin-right: 25px;
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+
+    &__link-img--tg {
+        background-image: url("../../../public/icons/social/telegram.svg");
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    &__link-img--vk {
+        background-image: url("../../../public/icons/social/vk.svg");
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+}
+
+@media (max-width: variables.$mobile-width) {
+    .panel {
+        height: 110px;
+        overflow: hidden;
+        flex-direction: column;
+        justify-content: space-between;
+
+        &__icons-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        &__content-wrapper {
+            height: 100%;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        &__link-selector {
+            display: none;
+        }
+
+        &__btn-icon {
+            display: block;
+            transform: scaleX(-1);
+        }
+
+        &__btn {
+            width: 100%;
+            height: 100%;
+            background-color: unset;
+        }
+
+        &__nav,
+        &__social {
+            margin-left: 0;
+        }
+
+        &--open {
+            // position: fixed;
+            left: 0;
+            right: 0;
+
+            height: 100vh;
+            min-height: 600px;
+            padding-bottom: 50px;
+
+            background-color: variables.$dark-bg-color;
+        }
+    }
+
+    .nav {
+        height: 159px;
+        flex-direction: column;
+        justify-content: space-between;
+        text-align: center;
+    }
+
+    .btn {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        &__line {
+            position: absolute;
+
+            width: 25px;
+            height: 2.5px;
+
+            transition: 0.4s;
+            border-radius: 4px;
+            background-color: variables.$bg-color;
+
+            &:nth-child(1) {
+                transform: translateY(-5px) rotate(-180deg);
+            }
+
+            &:nth-child(2) {
+                transform: translateY(5px) rotate(180deg);
+            }
+        }
+
+        &--close &__line:nth-child(1) {
+            transform: translateY(0) rotate(-30deg);
+        }
+
+        &--close &__line:nth-child(2) {
+            transform: translateY(0) rotate(30deg);
+        }
+    }
+}

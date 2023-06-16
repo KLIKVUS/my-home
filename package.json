@@ -18,14 +18,14 @@
     "config": "^3.3.9",
     "cookie-parser": "^1.4.6",
     "express": "^4.18.2",
-    "joi": "^17.7.0",
+    "joi": "^17.9.2",
     "jsonwebtoken": "^9.0.0",
-    "mongoose": "^6.8.4",
-    "swagger-autogen": "^2.23.0",
-    "swagger-ui-express": "^4.6.0"
+    "mongoose": "^6.11.2",
+    "swagger-autogen": "^2.23.1",
+    "swagger-ui-express": "^4.6.3"
   },
   "devDependencies": {
     "concurrently": "^7.6.0",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.22"
   }
 }

@@ -15,8 +15,8 @@ export const useLoader = () => {
     }, [request])
 
     const projectLoader = useCallback(async ({ params }) => {
-        const project = await request(`/api/project/:id?id=${params.projectId}`);
-        return { id: params.projectId, data: project.data };
+        const project = await request(`/api/project/${params.projectId}`);
+        return { id: params.projectId, ...project.data };
     }, [request])
 
     const feedbacksLoader = useCallback(async () => {
@@ -25,8 +25,8 @@ export const useLoader = () => {
     }, [request])
 
     const feedbackLoader = useCallback(async ({ params }) => {
-        const feedback = await request(`/api/feedback/:id?id=${params.feedbackId}`);
-        return { id: params.feedbackId, data: feedback.data };
+        const feedback = await request(`/api/feedback/${params.feedbackId}`);
+        return { id: params.feedbackId, ...feedback.data };
     }, [request])
 
     return { projectsLoader, projectLoader, feedbacksLoader, feedbackLoader }

@@ -8,8 +8,8 @@ export const useAuth = () => {
     const cookies = useMemo(() => new Cookies(), []);
 
     const login = useCallback(() => {
-        setAccessToken(cookies.get("accessToken"));
-        setRefreshToken(cookies.get("refreshToken"));
+        setAccessToken(cookies.get("accessToken") || null);
+        setRefreshToken(cookies.get("refreshToken") || null);
     }, [cookies])
 
     const logout = useCallback(() => {
@@ -19,13 +19,7 @@ export const useAuth = () => {
         cookies.remove("refreshToken", { path: "/" });
     }, [cookies])
 
-    useEffect(() => {
-        const accessToken = cookies.accessToken;
-        const refreshToken = cookies.refreshToken;
-
-        if (accessToken && refreshToken) login();
-    }, [cookies.accessToken, cookies.refreshToken, login])
-
+    useEffect(login, [login])
 
     return { login, logout, accessToken, refreshToken }
 }

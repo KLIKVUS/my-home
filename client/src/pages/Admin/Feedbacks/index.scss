@@ -1,0 +1,44 @@
+.admin-cards-wrapper {
+    max-width: 500px;
+    min-width: 320px;
+    margin: auto;
+}
+
+.admin-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    margin-bottom: 20px;
+        padding: 10px 15px;
+
+        border-radius: 12px;
+        background-color: #231F20;
+
+    &__links {
+        margin-top: 10px;
+
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    &__list {
+        margin-left: 18px;
+    }
+
+    &__list-item {
+        list-style: disc;
+    }
+}
+
+.admin-link {
+    margin-top: 20px;
+
+    text-decoration: underline;
+    text-align: center;
+    color: #231F20;
+}

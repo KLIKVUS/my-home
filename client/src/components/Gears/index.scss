@@ -1,0 +1,36 @@
+$gears-speed: 30;
+
+.gears {
+    &__gear {
+        animation-name: rotation;
+        animation-duration: 5s * $gears-speed;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+    }
+
+    &__gear-1 {
+        transform-origin: 310.068497px 158.046612px;
+    }
+
+    &__gear-2 {
+        transform-origin: 127.231712px 340.766998px;
+        animation-duration: 3.75s * $gears-speed;
+        animation-direction: reverse;
+    }
+
+    &__gear-3 {
+        transform-origin: 264.080002px 478.628006px;
+        animation-duration: 2.5s * $gears-speed;
+    }
+}
+
+
+@keyframes rotation {
+    from{
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
