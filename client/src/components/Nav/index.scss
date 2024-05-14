@@ -3,7 +3,6 @@
 .panel {
     position: relative;
     padding-top: 50px;
-    z-index: 1;
 
     display: flex;
     align-items: center;
@@ -116,9 +115,39 @@
 }
 
 @media (max-width: variables.$mobile-width) {
-    .panel {
+
+    .panel-wrapper,
+    .panel-wrapper--open {
         height: 110px;
+
+        position: absolute;
+        left: 0;
+        right: 0;
+
+        z-index: 1;
+        overflow-y: hidden;
+        transition: height 0.3s, background-color 0.5s, width 0s, padding 0s, margin 0s;
+    }
+
+    .panel-wrapper--open {
+        position: fixed;
+        left: 0;
+        right: 0;
+
+        height: 100vh;
+
+        overflow-y: scroll;
+        background-color: variables.$dark-bg-color;
+    }
+
+    .panel {
         overflow: hidden;
+
+        height: 100%;
+        min-height: 500px;
+        padding-bottom: 50px;
+        margin: 0 20px;
+
         flex-direction: column;
         justify-content: space-between;
 
@@ -139,6 +168,10 @@
             display: none;
         }
 
+        &__links-wrapper {
+            margin-left: 0;
+        }
+
         &__btn-icon {
             display: block;
             transform: scaleX(-1);
@@ -153,18 +186,6 @@
         &__nav,
         &__social {
             margin-left: 0;
-        }
-
-        &--open {
-            // position: fixed;
-            left: 0;
-            right: 0;
-
-            height: 100vh;
-            min-height: 600px;
-            padding-bottom: 50px;
-
-            background-color: variables.$dark-bg-color;
         }
     }
 

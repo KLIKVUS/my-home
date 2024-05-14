@@ -72,15 +72,24 @@
 
         &__gears {
             width: 400px;
-            // top: 100px;
         }
     }
 }
 
 @media (max-width: variables.$mobile-width) {
     .header {
+        &__text-wrapper {
+            max-width: none;
+            margin: 0 20px;
+
+            text-align: center;
+
+            left: 0;
+            right: 0;
+        }
+
         &__title {
-            font-size: variables.$tb-title-size;
+            font-size: variables.$mb-title-size;
         }
 
         &__gears {
